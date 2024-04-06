@@ -7,6 +7,8 @@ import {
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { toDoState } from "./atoms";
+import DragabbleCard from "./Components/DragabbleCard";
+import { useMemo } from "react";
 
 const Wrapper = styled.div`
     display: flex;
@@ -29,13 +31,6 @@ const Board = styled.div`
     padding: 30px 20px 20px;
     border-radius: 5px;
     background-color: ${(props) => props.theme.boardColor};
-`;
-
-const Card = styled.div`
-    padding: 5px 10px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    background-color: ${(props) => props.theme.cardColor};
 `;
 
 function App() {
@@ -67,21 +62,11 @@ function App() {
                                 {...magic.droppableProps}
                             >
                                 {toDos.map((toDo, index) => (
-                                    <Draggable
+                                    <DragabbleCard
                                         key={toDo}
-                                        draggableId={toDo}
                                         index={index}
-                                    >
-                                        {(magic) => (
-                                            <Card
-                                                ref={magic.innerRef}
-                                                {...magic.dragHandleProps}
-                                                {...magic.draggableProps}
-                                            >
-                                                {toDo}
-                                            </Card>
-                                        )}
-                                    </Draggable>
+                                        toDo={toDo}
+                                    />
                                 ))}
                                 {magic.placeholder}
                             </Board>
