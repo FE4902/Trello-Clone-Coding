@@ -3,7 +3,8 @@ import DragabbleCard from "./DragabbleCard";
 import styled from "styled-components";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { ITodo } from "../atoms";
+import { ITodo, toDoState } from "../atoms";
+import { useSetRecoilState } from "recoil";
 
 const Wrapper = styled.div`
     display: flex;
@@ -40,6 +41,10 @@ const Area = styled.div<IAreaProps>`
 
 const Form = styled.form`
     width: 100%;
+
+    input {
+        width: 100%;
+    }
 `;
 
 interface IBoardProps {
@@ -52,8 +57,19 @@ interface IForm {
 }
 
 export default function Board({ toDos, boardId }: IBoardProps) {
+    const setToDos = useSetRecoilState(toDoState);
     const { register, setValue, handleSubmit } = useForm<IForm>();
     const onValid = ({ toDo }: IForm) => {
+        const newToDo = {
+            id: Date.now(),
+            text: toDo,
+        };
+        setToDos((allBoards) => {
+            return {
+                ...allBoards,
+                [boardId]: [newToDo, ...allBoards[boardId]],
+            };
+        });
         setValue("toDo", "");
     };
     return (
