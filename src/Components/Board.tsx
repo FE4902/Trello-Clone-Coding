@@ -3,6 +3,8 @@ import DragabbleCard from "./DragabbleCard";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
     min-height: 300px;
     padding: 20px 10px 10px;
     border-radius: 5px;
@@ -16,6 +18,22 @@ const Title = styled.h2`
     font-weight: 600;
 `;
 
+interface IAreaProps {
+    isDraggingOver: boolean;
+    isDraggingFromThis: boolean;
+}
+
+const Area = styled.div<IAreaProps>`
+    flex-grow: 1;
+    background-color: ${(props) =>
+        props.isDraggingOver
+            ? "pink"
+            : props.isDraggingFromThis
+            ? "red"
+            : "blue"};
+    transition: 0.3s ease-in-out;
+`;
+
 interface IBoardProps {
     toDos: string[];
     boardId: string;
@@ -26,8 +44,13 @@ export default function Board({ toDos, boardId }: IBoardProps) {
         <Wrapper>
             <Title>{boardId}</Title>
             <Droppable droppableId={boardId}>
-                {(magic) => (
-                    <div ref={magic.innerRef} {...magic.droppableProps}>
+                {(magic, info) => (
+                    <Area
+                        isDraggingOver={info.isDraggingOver}
+                        isDraggingFromThis={Boolean(info.draggingFromThisWith)}
+                        ref={magic.innerRef}
+                        {...magic.droppableProps}
+                    >
                         {toDos.map((toDo, index) => (
                             <DragabbleCard
                                 key={toDo}
@@ -36,7 +59,7 @@ export default function Board({ toDos, boardId }: IBoardProps) {
                             />
                         ))}
                         {magic.placeholder}
-                    </div>
+                    </Area>
                 )}
             </Droppable>
         </Wrapper>
