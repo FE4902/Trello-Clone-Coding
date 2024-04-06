@@ -6,7 +6,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     min-height: 300px;
-    padding: 20px 10px 10px;
+    padding: 10px 0;
     border-radius: 5px;
     background-color: ${(props) => props.theme.boardColor};
 `;
@@ -25,12 +25,13 @@ interface IAreaProps {
 
 const Area = styled.div<IAreaProps>`
     flex-grow: 1;
+    padding: 20px;
     background-color: ${(props) =>
         props.isDraggingOver
-            ? "pink"
+            ? "#dfe6e9"
             : props.isDraggingFromThis
-            ? "red"
-            : "blue"};
+            ? "#b2bec3"
+            : "#74b9ff"};
     transition: 0.3s ease-in-out;
 `;
 
