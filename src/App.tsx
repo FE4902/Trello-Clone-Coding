@@ -77,3 +77,8 @@ function App() {
 }
 
 export default App;
+
+// 1. toDo 삭제
+// 2. task localStorage 저장
+// 3. board 생성
+// 4. board 순서 변경 가능하게
